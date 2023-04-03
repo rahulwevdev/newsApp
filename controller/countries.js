@@ -15,7 +15,8 @@ exports.loadCountriesTag = async (request,response)=>{
 
 
         let countriesMatrix = [];
-        let rank={}
+        let rankRow={};
+        let rankColumn={};
 
         for (let x = 0; x < 3; x++) {
             let inArr = [];
@@ -27,8 +28,7 @@ exports.loadCountriesTag = async (request,response)=>{
             
         }
 
-      
-        console.log(countriesMatrix)
+    
 
         // for row consecutive...
         for (let i = 0; i < countriesMatrix.length; i++) {
@@ -36,12 +36,8 @@ exports.loadCountriesTag = async (request,response)=>{
             let mp = new Map();
             mp.set(exist,1);
 
-            if(!(exist in rank)){
-
-            }
             
             for (let y = 1; y < countriesMatrix[i].length; y++) {
-                console.log(countriesMatrix[i][y],exist)
                 if(countriesMatrix[i][y] != exist){
                     break;
                 }
@@ -54,8 +50,31 @@ exports.loadCountriesTag = async (request,response)=>{
 
             if(mp.get(exist)>1){
                 let obj = Object.fromEntries(mp);
+                rankRow = {...rankRow,...obj}
+            }
+
+            
+            
+        }
+
+        // for coloumn consecutive...
+
+        for (let i = 0; i < countriesMatrix.length; i++) {
+            let exist = countriesMatrix[0][i];
+            let mp = new Map();
+            mp.set(exist,1);
+            if(exist == countriesMatrix[1][i]){
+                mp.set(exist,2);
+                if(exist == countriesMatrix[2][i]){
+                    mp.set(exist,3)
+                }
+            }
+            
+
+            if(mp.get(exist)>1){
+                let obj = Object.fromEntries(mp);
                 console.log(obj)
-                rank = {...rank,...obj}
+                rankColumn = {...rankColumn,...obj}
             }
 
             
@@ -64,7 +83,8 @@ exports.loadCountriesTag = async (request,response)=>{
 
         let res = {
             outcome:countriesMatrix,
-            rank
+            rankRow,
+            rankColumn
         }
 
         return response.status(200).json({
