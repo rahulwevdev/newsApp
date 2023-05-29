@@ -28,12 +28,22 @@ app.use(function (request, response, next) {
 
 
 // require router 
-const countries = require("./router/countries");
+const banner = require("./router/banner");
+const category = require("./router/category");
+const type = require("./router/type");
+const auth = require("./router/auth");
+const admin = require("./router/admin");
+const news = require("./router/news");
 
 
 
 // use router
-app.use("/api",countries);
+app.use("/banner",banner);
+app.use("/category",category);
+app.use("/type",type);
+app.use("/auth",auth);
+app.use("/admin",admin);
+app.use("/news",news);
 
 
 
